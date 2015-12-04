@@ -1,0 +1,24 @@
+#CROSS=mipsel-uclibc-
+#CC=$(CROSS)gcc
+CC=$(CROSS)clang
+LD=$(CROSS)ld
+AR=$(CROSS)ar
+RANLIB=$(CROSS)ranlib
+
+CCFLAGS+=-Os -Wall -I. -Wno-pointer-sign -fomit-frame-pointer
+LDFLAGS+=-s
+LIBS=
+
+PACKAGE=ministun
+OBJS=$(PACKAGE).o
+
+all: $(PACKAGE)
+
+$(PACKAGE): $(PACKAGE).o $(LIBS)
+	$(CC) $(CCFLAGS) $(LDFLAGS) $(OBJS) -o $(PACKAGE) $(LIBS)
+
+%.o: %.c
+	$(CC) $(CCFLAGS) -c $<
+
+clean:
+	rm -f *.o $(PACKAGE)
